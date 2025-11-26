@@ -2,23 +2,23 @@ REM Variables
 REM
 REM Everything is 1-based unless otherwise specified.
 REM
-REM B(I)
-REM D1(5)
-REM I        Temporary: current player number
+REM B(I)     Cash in bank of each player
+REM D1(5)    Net worth of each player
+REM I        Temporary: current player number, candidate move number
 REM K        Current turn (initialized to 0)
 REM M$(5)    Company names
 REM M$       Characters A-L for map column labels
 REM M(10,13) The map, 10 rows, 13 columns
-REM N$(5)
+REM N$(5)    Unknown. Maybe a typo.
 REM P        Current player number
-REM P$(I)    Player name
+REM P$(I)    Player names
 REM P1       Total number of players
 REM Q(5)     Number of spaces occupied by company I
 REM R(5)     Candidate space rows
 REM C(5)     Candidate space columns
 REM R$       Temporary: hold player response to question
-REM S1(5)
-REM S(5,4)
+REM S1(5)    Stock price per company
+REM S(5,4)   Stock holdings S(company, player)
 REM
 REM Map Values
 REM
@@ -43,6 +43,12 @@ REM Game over
 REM 
 REM The game ends when the current turn reaches 48.
 REM
+REM Lines
+REM 
+REM 680 New shipping company formed
+REM 700 detect stars nearby company and increase price
+REM 800 
+REM 7900 Special announcement banner
 
 10 REM THE GAME OF STAR LANES - AN INTERSTELLAR COMMERCE GAME
 20 REM FOR 2-4 PLAYERS - COPYRIGHT 1977 BY STEVEN FABER
@@ -55,6 +61,10 @@ REM CHR$(12) is formfeed
 50 PRINT " L * A * N * E * S *"
 
 REM Array dimensions
+REM
+REM Is `N$` a typo in the source listing? Should it be `M$`? The Osborne
+REM version also has `N$`, but it doesn't appear anywhere else in the
+REM source.
 
 60 DIM M(10,13), S(5,4), N$(5), D1(5), S1(5), Q(5)
 
@@ -113,16 +123,40 @@ REM 240 verifies uniqueness. Line 250 verifies emptiness.
 250 NEXT I1: IF M(R(I),C(I)) > 1 THEN 230
 
 REM If the number of spaces occupied by any company is 0, we'll skip the
-REM next block. ???
+REM next block. This is answering the question, "Are there any companies
+REM not in use that we can form?"
+REM
+REM If the answer is no, the player cannot be given a candidate location
+REM that would form a new company. The subsequent blocks of code verify
+REM that the candidate location would *not* form a new company.
+REM
+REM Jumping to 340 means we'll allow the candidate for now.
 
 260 FOR I1 = 1 TO 5: IF Q(I1) = 0 THEN 340
 
-REM If up, down, left, or right of
-270 NEXT I1: IF M(R(I),C(I)+1) > 3 OR M(R(I),C(I)-1)>3 THEN 340
+REM At this point, there are no companies available, so we can't be
+REM allowed to form a new one. But if up, down, left, or right of the
+REM candidate has a company in it, then this will just add to an
+REM existing company (or merge), and so we'll allow the candidate for
+REM now.
+
+270 NEXT I1: IF M(R(I),C(I)+1) > 3 OR M(R(I),C(I)-1) > 3 THEN 340
 280 IF M(R(I)+1,C(I)) > 3 OR M(R(I)-1),C(I)) > 3 THEN 340
+
+REM Look at the map in 4 directions from the candidate
+REM
+REM      A4
+REM   A2    A1
+REM      A3
 
 290 A1=M(R(I),C(I)+1):A2=M(R(I),C(I)-1)
 300 A3=M(R(I)+1,C(I)):A4=M(R(I)-1,C(I))
+
+REM If one direction is an outpost and the rest are not companies, then
+REM this would form a company. Discard it and try again. (If it's an
+REM outpost and another neighbor *is* a company, both the new cell and
+REM outpost would be merged into the existing company.)
+
 310 IFA1=2ANDA2<4ANDA3<4ANDA4<4THEN230
 315 IFA2=2ANDA1<4ANDA3<4ANDA4<4THEN230
 320 IFA3=2ANDA1<4ANDA2<4ANDA4<4THEN230
@@ -131,31 +165,89 @@ REM If up, down, left, or right of
 332 IFA2=3ANDA1<4ANDA3<4ANDA4<4THEN230
 335 IFA3=3ANDA1<4ANDA2<4ANDA4<4THEN230
 337 IFA4=3ANDA1<4ANDA2<4ANDA3<4THEN230
-340 NEXTI:GOSUB1000:PRINT:PRINTP$(P);
+
+REM Print the map and player name
+
+340 NEXT I: GOSUB 1000:PRINT :PRINT P$(P);
+
+REM Show legal moves (columns are shown "A" through "L")
+
 350 PRINT", HERE ARE YOUR LEGAL MOVES FOR THIS TURN:"
-360 FORI=1TO5:PRINTR(I);MID$(M$,C(I),1);" /";NEXTI:PRINT
+360 FOR I=1 TO 5: PRINT R(I);MID$(M$,C(I),1);" /";:NEXT I: PRINT
+
+REM Get move, special case "M" for showing the map and "S" the score.
+
 370 INPUT"WHAT IS YOUR MOVE";R$:IFLEFT$(R$,1)="M"THENGOSUB1000:GOTO350
 372 IFLEFT$(R$,1)="S"THENGOSUB1440:GOTO350
+
+REM Get the entered row and column, converting the column to an index.
+REM Check that the entered r,c is in the candidate list.
+
 375 R=VAL(LEFT$(R$,1))
 380 C=ASC(RIGHT$(R$,1))-64:FORI=1TO5:IFR=R(I)ANDC=C(I)THEN400
 390 NEXTI:PRINT"THAT SPACE WAS NOT INCLUDED IN THE LIST...":GOTO370
-400 A1=M(R-1,C):A2=M(R+1,C):A3=M(R,C+1):A4=M(R,C-1)
-410 IFA1<=1ANDA2<=1ANDA3<=1ANDA4<=1THENM(R,C)=2:GOTO800
-420 IFA1>3ANDA2>3ANDA2<>A1THENGOSUB1060
-430 IFA1>3ANDA3>3ANDA3<>A1THENGOSUB1060
-440 IFA1>3ANDA4>3ANDA4<>A1THENGOSUB1060
-450 IFA2>3ANDA3>3ANDA3<>A2THENGOSUB1060
-460 IFA2>3ANDA4>3ANDA4<>A2THENGOSUB1060
-470 IFA3>3ANDA4>3ANDA4<>A3THENGOSUB1060
-480 IFA1<4ANDA2<4ANDA3<4ANDA4<4THEN660
-490 IFM(R,C)>3THEN800
-500 IFA1>3THENI=A1-3
-510 IFA2>3THENI=A2-3
-520 IFA3>3THENI=A3-3
-530 IFA4>3THENI=A4-3
-540 Q(I)=Q(I)+1:S1(I)=S1(I)+100:M(R,C)=I+3:GOTO700
-660 FORI=1TO5:IFQ(I)=0THEN680
-670 NEXTI:IFM(R,C)<3THENM(R,C)=2:GOTO800
+
+REM Look at the map in 4 directions from the move (different than the
+REM last time)
+REM
+REM      A1
+REM   A4    A3
+REM      A2
+
+400 A1 = M(R-1,C): A2 = M(R+1,C): A3 = M(R,C+1): A4 = M(R,C-1)
+
+REM If the move is surrounded by empty space, it becomes an outpost and
+REM we're done. (Why <= 1 and not just =1? Are spaces ever
+REM non-positive???)
+
+410 IF A1 <= 1 AND A2 <= 1 AND A3 <= 1 AND A4 <= 1 THEN M(R,C) = 2: GOTO800
+
+REM If any pair of directions are companies that are NOT the same, check
+REM for a merge.
+
+420 IF A1 > 3 AND A2 > 3 AND A2 <> A1 THEN GOSUB 1060
+430 IF A1 > 3 AND A3 > 3 AND A3 <> A1 THEN GOSUB 1060
+440 IF A1 > 3 AND A4 > 3 AND A4 <> A1 THEN GOSUB 1060
+450 IF A2 > 3 AND A3 > 3 AND A3 <> A2 THEN GOSUB 1060
+460 IF A2 > 3 AND A4 > 3 AND A4 <> A2 THEN GOSUB 1060
+470 IF A3 > 3 AND A4 > 3 AND A4 <> A3 THEN GOSUB 1060
+
+REM If there are no companies in any direction, then skip the next
+REM block???
+
+480 IF A1 < 4 AND A2 < 4 AND A3 < 4 AND A4 < 4 THEN 660
+
+REM If there is already a company at this location, skip to scoring???
+REM How can this ever happen???
+
+490 IF M(R,C) > 3 THEN 800
+
+REM Assign `I` the company number in the given direction. Note that
+REM later directions will overwrite previously-assigned values of `I`.
+
+500 IF A1 > 3 THEN I = A1-3
+510 IF A2 > 3 THEN I = A2-3
+520 IF A3 > 3 THEN I = A3-3
+530 IF A4 > 3 THEN I = A4-3
+
+REM Increment the number of spaces occupied by the company in Q(I).
+REM Add 100 to the stock price of the company in S1(I).
+REM Set the map in at the current move to the same company.
+REM Jump ahead to star detection (700)
+
+540 Q(I) = Q(I) + 1: S1(I) = S1(I) + 100: M(R,C) = I+3: GOTO 700
+
+REM If there are any available companies, skip the next line and form a
+REM new company
+
+660 FOR I=1 TO 5: IF Q(I) = 0 THEN 680
+
+REM If the map at the move is empty space or an outpost (how could
+REM it be an outpost???), make it an outpost. Almost redundant with line
+REM 410 excepts allows for outposts to overwrite existing outposts.
+
+670 NEXTI: IF M(R,C) < 3 THEN M(R,C) = 2: GOTO 800
+
 680 GOSUB7900:PRINT"A NEW SHIPPING COMPANY HAS BEEN FORMED!"
 690 PRINT"IT'S NAME IS ";M$(I):S(I,P)=S(I,P)+5:Q(I)=1
 695 PRINT:PRINT:PRINT:PRINT:PRINT
