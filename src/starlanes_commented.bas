@@ -47,7 +47,8 @@ REM Lines
 REM 
 REM 680 New shipping company formed
 REM 700 detect stars nearby company and increase price
-REM 800 
+REM 800 Add dividends to current player
+REM 1400 Stock split (param T1 is the company number)
 REM 7900 Special announcement banner
 
 10 REM THE GAME OF STAR LANES - AN INTERSTELLAR COMMERCE GAME
@@ -248,20 +249,47 @@ REM 410 excepts allows for outposts to overwrite existing outposts.
 
 670 NEXTI: IF M(R,C) < 3 THEN M(R,C) = 2: GOTO 800
 
-680 GOSUB7900:PRINT"A NEW SHIPPING COMPANY HAS BEEN FORMED!"
-690 PRINT"IT'S NAME IS ";M$(I):S(I,P)=S(I,P)+5:Q(I)=1
-695 PRINT:PRINT:PRINT:PRINT:PRINT
-700 IFA1=3THENS1(I)=S1(I)+500
-710 IFA2=3THENS1(I)=S1(I)+500
-720 IFA3=3THENS1(I)=S1(I)+500
-730 IFA4=3THENS1(I)=S1(I)+500
-740 IFA1=2THENS1(I)=S1(I)+100:Q(I)=Q(I)+1:M(R-1,C)=I+3
-750 IFA2=2THENS1(I)=S1(I)+100:Q(I)=Q(I)+1:M(R+1,C)=I+3
-760 IFA3=2THENS1(I)=S1(I)+100:Q(I)=Q(I)+1:M(R,C+1)=I+3
-770 IFA4=2THENS1(I)=S1(I)+100:Q(I)=Q(I)+1:M(R,C-1)=I+3
-780 IFS1(I)>=3000THENT1=I:GOSUB1400
-790 M(R,C)=I+3
-800 FORI=1TO5:B(P)=B(P)+INT(.05*S(I,P)*S1(I)):NEXTI
+REM Notify that a new shipping company has been formed (at index `I`).
+REM Give the founding player (current player, in `P`) 5 shares in that
+REM company. Set the size of the company to 1. (The size will increase
+REM during the merge phase???) (Why not set the size to 5 immediately,
+REM why add???)
+
+680 GOSUB 7900: PRINT "A NEW SHIPPING COMPANY HAS BEEN FORMED!"
+690 PRINT "IT'S NAME IS ";M$(I): S(I,P) = S(I,P) + 5: Q(I) = 1
+695 PRINT: PRINT: PRINT: PRINT: PRINT
+
+REM If there is a star in any direction, add 500 to the stock price for
+REM the new company.
+
+700 IF A1=3 THEN S1(I) = S1(I) + 500
+710 IF A2=3 THEN S1(I) = S1(I) + 500
+720 IF A3=3 THEN S1(I) = S1(I) + 500
+730 IF A4=3 THEN S1(I) = S1(I) + 500
+
+REM Any outposts next to the new company add 100 to the stock value and
+REM add 1 to the company size. Also, the outpost is converted to the new
+REM company on the map.
+
+740 IF A1=2 THEN S1(I) = S1(I) + 100: Q(I) = Q(I) + 1: M(R-1,C) = I + 3
+750 IF A2=2 THEN S1(I) = S1(I) + 100: Q(I) = Q(I) + 1: M(R+1,C) = I + 3
+760 IF A3=2 THEN S1(I) = S1(I) + 100: Q(I) = Q(I) + 1: M(R,C+1) = I + 3
+770 IF A4=2 THEN S1(I) = S1(I) + 100: Q(I) = Q(I) + 1: M(R,C-1) = I + 3
+
+REM If the stock price exceeds 3000, set parameter T1 to the company
+REM index, then call the stock split code.
+
+780 IF S1(I) >= 3000 THEN T1=I: GOSUB 1400
+
+REM Set the selected site to the company number
+
+790 M(R,C) = I + 3
+
+REM Dividends: Add to the current player's bank account 5% of the value
+REM of their holdings in all companies.
+
+800 FOR I=1 TO 5: B(P) = B(P) + INT(.05 * S(I,P) * S1(I)): NEXT I
+
 810 FORI=1TO5:IFQ(I)=0THEN900
 820 PRINT"YOUR CURRENT CASH= $";B(P)
 830 PRINT"BUY HOW MANY SHARES OF ";M$(I);" AT $";S1(I):PRINTTAB(5);
