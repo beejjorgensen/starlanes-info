@@ -66,6 +66,8 @@ An example rendering from the original game:
          9  .  .  .  .  .  .  .  .  .  .  .  . 
 ```
 
+> Pedantic note: in the original game, each row 1-9 of the map ends with
+> a space character after the cell.
 
 Each cell of the map can exist in one of eight states:
 
