@@ -19,10 +19,21 @@ Each player takes turns, and each turn performs:
 The game is over when the grid is mostly filled. The player with the
 highest net worth wins.
 
-## Altair Notes
+## Altair BASIC Notes
 
 Code was originally for an Altair, and was in all caps. Formfeeds were
 used to "clear the screen" at various points in the code.
+
+When printing, semicolons cause neighboring arguments to appear
+immediately adjacent to one another. A semicolon at the end of a line
+prevents a newline. Spaces (or no space) between arguments is just like
+a semicolon.
+
+Exception: when printing numbers, a number is **always** followed by a
+space, and positive number are **always** preceded by a space.
+
+The `TAB` function moves the cursor to the specified column (1-based)
+and continues printing there.
 
 ## The Companies
 
@@ -41,19 +52,20 @@ The map is 10 rows by 13 columns.
 An example rendering from the original game:
 
 ```
-                      MAP OF THE GALAXY
-                     *******************
-             A  B  C  D  E  F  G  H  I  J  K  L
-          1  .  .  .  .  .  .  .  .  .  .  .  .
-          2  .  .  .  .  .  .  +  .  E  E  +  .
-          3  +  .  .  *  .  .  .  .  *  .  .  .
-          4  .  .  .  A  .  .  .  .  .  .  .  .
-          5  .  .  A  A  .  B  B  .  +  .  .  .
-          6  .  .  .  .  *  .  B  B  .  .  .  .
-          7  .  .  .  .  .  .  .  .  .  *  .  .
-          8  .  .  .  +  .  .  .  .  .  .  .  .
-          9  .  .  .  .  .  .  .  .  .  .  .  .
+                     MAP OF THE GALAXY
+                    *******************
+            A  B  C  D  E  F  G  H  I  J  K  L
+         1  .  .  .  .  .  .  .  .  .  .  .  . 
+         2  .  .  .  .  .  .  +  .  E  E  +  . 
+         3  +  .  .  *  .  .  .  .  *  .  .  . 
+         4  .  .  .  A  .  .  .  .  .  .  .  . 
+         5  .  .  A  A  .  B  B  .  +  .  .  . 
+         6  .  .  .  .  *  .  B  B  .  .  .  . 
+         7  .  .  .  .  .  .  .  .  .  *  .  . 
+         8  .  .  .  +  .  .  .  .  .  .  .  . 
+         9  .  .  .  .  .  .  .  .  .  .  .  . 
 ```
+
 
 Each cell of the map can exist in one of eight states:
 
