@@ -93,6 +93,7 @@ REM space.
 120 M(I,J) = 3
 
 REM Get player count and ask about instructions
+
 130 NEXT J,I: INPUT "HOW MANY PLAYERS (2-4)";P1
 140 INPUT "DOES ANY PLAYER NEED INSTRUCTIONS";R$
 150 IF LEFT$(R$,1) = "Y" THEN GOSUB 8000
@@ -157,22 +158,22 @@ REM      A4
 REM   A2    A1
 REM      A3
 
-290 A1=M(R(I),C(I)+1):A2=M(R(I),C(I)-1)
-300 A3=M(R(I)+1,C(I)):A4=M(R(I)-1,C(I))
+290 A1 = M(R(I),C(I)+1): A2 = M(R(I),C(I)-1)
+300 A3 = M(R(I)+1,C(I)): A4 = M(R(I)-1,C(I))
 
 REM If one direction is an outpost and the rest are not companies, then
 REM this would form a company. Discard it and try again. (If it's an
 REM outpost and another neighbor *is* a company, both the new cell and
 REM outpost would be merged into the existing company.)
 
-310 IFA1=2ANDA2<4ANDA3<4ANDA4<4THEN230
-315 IFA2=2ANDA1<4ANDA3<4ANDA4<4THEN230
-320 IFA3=2ANDA1<4ANDA2<4ANDA4<4THEN230
-325 IFA4=2ANDA1<4ANDA2<4ANDA3<4THEN230
-330 IFA1=3ANDA2<4ANDA3<4ANDA4<4THEN230
-332 IFA2=3ANDA1<4ANDA3<4ANDA4<4THEN230
-335 IFA3=3ANDA1<4ANDA2<4ANDA4<4THEN230
-337 IFA4=3ANDA1<4ANDA2<4ANDA3<4THEN230
+310 IF A1 = 2 AND A2 < 4 AND A3 < 4 AND A4 < 4 THEN 230
+315 IF A2 = 2 AND A1 < 4 AND A3 < 4 AND A4 < 4 THEN 230
+320 IF A3 = 2 AND A1 < 4 AND A2 < 4 AND A4 < 4 THEN 230
+325 IF A4 = 2 AND A1 < 4 AND A2 < 4 AND A3 < 4 THEN 230
+330 IF A1 = 3 AND A2 < 4 AND A3 < 4 AND A4 < 4 THEN 230
+332 IF A2 = 3 AND A1 < 4 AND A3 < 4 AND A4 < 4 THEN 230
+335 IF A3 = 3 AND A1 < 4 AND A2 < 4 AND A4 < 4 THEN 230
+337 IF A4 = 3 AND A1 < 4 AND A2 < 4 AND A3 < 4 THEN 230
 
 REM Print the map and player name
 
@@ -191,9 +192,9 @@ REM Get move, special case "M" for showing the map and "S" the score.
 REM Get the entered row and column, converting the column to an index.
 REM Check that the entered r,c is in the candidate list.
 
-375 R=VAL(LEFT$(R$,1))
-380 C=ASC(RIGHT$(R$,1))-64:FORI=1TO5:IFR=R(I)ANDC=C(I)THEN400
-390 NEXTI:PRINT"THAT SPACE WAS NOT INCLUDED IN THE LIST...":GOTO370
+375 R = VAL(LEFT$(R$,1))
+380 C = ASC(RIGHT$(R$,1)) - 64: FOR I=1 TO 5: IF R=R(I) AND C=C(I) THEN 400
+390 NEXT I: PRINT"THAT SPACE WAS NOT INCLUDED IN THE LIST...": GOTO 370
 
 REM Look at the map in 4 directions from the move (different than the
 REM last time)
