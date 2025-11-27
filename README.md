@@ -18,6 +18,7 @@ had the information I was after! For once, I should have started there.
 ## Sources
 
 * [`starlanes.bas` from the magazine](src/starlanes.bas)
+* [`starlanes.bas` from the magazine formatted and heavily commented](src/starlanes_commented.bas)
 
 ## Play
 
