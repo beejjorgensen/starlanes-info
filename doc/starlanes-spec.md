@@ -19,22 +19,6 @@ Each player takes turns, and each turn performs:
 The game is over when the grid is mostly filled. The player with the
 highest net worth wins.
 
-## Altair BASIC Notes
-
-Code was originally for an Altair, and was in all caps. Formfeeds were
-used to "clear the screen" at various points in the code.
-
-When printing, semicolons cause neighboring arguments to appear
-immediately adjacent to one another. A semicolon at the end of a line
-prevents a newline. Spaces (or no space) between arguments is just like
-a semicolon.
-
-Exception: when printing numbers, a number is **always** followed by a
-space, and positive number are **always** preceded by a space.
-
-The `TAB` function moves the cursor to the specified column (1-based)
-and continues printing there.
-
 ## The Companies
 
 There are five companies that can be in existence at any one time:
@@ -263,6 +247,22 @@ by moving next to an outpost or a star), but there are no companies
 available, an outpost is placed at the player's move, instead. This
 should not be possible (the candidate move should have been disallowed),
 but there is code in the original game to handle it.
+
+## Altair BASIC Notes
+
+Code was originally for an Altair, and was in all caps. Formfeeds were
+used to "clear the screen" at various points in the code.
+
+When printing, semicolons cause neighboring arguments to appear
+immediately adjacent to one another. A semicolon at the end of a line
+prevents a newline. Spaces (or no space) between arguments is just like
+a semicolon.
+
+Exception: when printing numbers, a number is **always** followed by a
+space, and positive number are **always** preceded by a space.
+
+The `TAB` function moves the cursor to the specified column (1-based)
+and continues printing there.
 
 ## Questions
 
