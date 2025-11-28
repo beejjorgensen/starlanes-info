@@ -193,6 +193,8 @@ size, and convert the outpost into the company.
 If the price per share of the new-or-growing company becomes greater
 than `3000`, perform a [stock split](#stock-splits).
 
+Set the map cell at the current move to the new-or-growing company.
+
 ### 7. Pay Dividends
 
 For each company, compute 5% of the cash value of the player's stock
