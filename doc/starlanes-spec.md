@@ -97,8 +97,8 @@ At the start of the game, the map is initialized one cell at a time.
 
 ### 1. Check Turn Counter
 
-At the start of the current player's turn, the turn counter is
-incremented. If it's then turn 48, the [game is over](#game-over).
+Increment the turn counter. If it reaches `48`, the [game is
+over](#game-over).
 
 ### 2. Increment Current Player
 
