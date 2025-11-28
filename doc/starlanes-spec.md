@@ -103,11 +103,168 @@ At the start of the game, the map is initialized one cell at a time.
 * Instructions are given if requested.
 * All players are asked for their names.
 * The current player (to go first) is chosen randomly.
+* The current turn counter is set to `0`
 
 > At various points in the original code, unused companies (i.e. not
 > currently on the map) are recognized by a stock price of `100` or a
 > size of `0`.
 
+## Gameplay
+
+### 1. Check Turn Counter
+
+At the start of the current player's turn, the turn counter is
+incremented. If it's then turn 48, the [game is over](#game-over).
+
+### 2. Increment Current Player
+
+Increment the current player number—wrap around at the number of
+players.
+
+### 3. Random Candidate Moves Selected
+
+These moves are generally randomly chosen from empty spaces across
+the map, but with limitations, below.
+
+* All five candidate moves will be distinct from one another—no repeats.
+
+* None of the candidate moves will currently contain anything other than
+  empty space.
+
+* If the number of distinct companies on the map is five (i.e. Altair
+  Starways through Eridani Expediters are all "in use"), additional
+  restrictions on the candidate moves apply. (Basically, none of the
+  candidate moves should allow for the formation of a new company at
+  this point, since all the companies are in-use.) These additional
+  rules are:
+
+  * If any of the neighboring cells has a company in it, **allow** the
+    candidate. (This merely grows the company and doesn't create a new
+    one. It might also result in a merge, which also doesn't create a
+    new company.)
+
+  * If any neighboring cell is an unassigned outpost and none of the
+    rest are companies, **disallow and replace** the candidate with
+    another random one (that must also obey all the rules).
+   
+The player will be able to select from these five choices about which
+move to make.
+
+> Implementation note: the original code chooses a candidate repeatedly
+> and randomly until all the required conditions are met. If five
+> candidate moves could not be found, the program would loop infinitely.
+> It is suggested to take a more rugged approach, e.g. use a
+> deterministic method for finding moves and end the game if enough
+> cannot be found.
+
+### 4. Player Moves
+
+Show the current player the map, print their name, and ask for their
+move.
+
+The player may choose a move directly, or also ask to see the map or
+their stock holdings at this point. After viewing the map or holdings,
+they'll be prompted again to move.
+
+### 5. Update Map Phase 1
+
+If the player's move is surrounded by empty space, it becomes an
+unaffiliated outpost. Jump to [Pay Dividends](#pay-dividends).
+
+If any neighbors are companies that are not the same, perform a
+[merge](#merge). Jump to [Pay Dividends](#pay-dividends).
+
+If any neighbor is a company, [grow the company](#company-growth). Jump
+to [Update Map Phase 2](#update-map-phase-2).
+
+If any neighbor is a star or outpost, [form a new
+company](#company-formation). Jump to [Update Map Phase
+2](#update-map-phase-2).
+
+### 6. Update Map Phase 2
+
+For each neighbor of the selected move that is a star, add `500` to the
+new-or-growing company's stock price.
+
+For each neighbor of the select move that is an unaffiliated outpost,
+add `100` to the new-or-growing company's stock price, add `1` to its
+size, and convert the outpost into the company.
+
+### 7. Pay Dividends
+
+For each company, compute 5% of the cash value of the player's stock
+holdings in that company and add the result to the player's cash
+holdings.
+
+### 8. Trade
+
+For each company, allow the player to buy or sell stock.
+
+The player will only be allowed to buy or sell once per company per
+turn, and always in alphabetical order.
+
+Example transcript from the original game:
+
+```
+YOUR CURRENT CASH= $ 2800
+BUY HOW MANY SHARES OF ALTAIR STARWAYS AT $ 500
+    YOU NOW OWN 27? 10
+YOU ONLY HAVE $ 2800 - TRY AGAIN
+BUY HOW MANY SHARES OF ALTAIR STARWAYS AT $ 500
+    YOU NOW OWN 27? 2
+YOUR CURRENT CASH= $ 1800
+BUY HOW MANY SHARES OF CAPELLA FREIGHT CO. AT $ 200
+    YOU NOW OWN 5? 5 
+YOUR CURRENT CASH= $ 800
+BUY HOW MANY SHARES OF ERIDANI EXPEDITERS AT $ 1200
+    YOU NOW OWN 12? 0 
+```
+
+> It is unclear if the original game meant for you to only be able to
+> trade in each company once per turn. This effectively limited you if
+> you wanted to sell a company higher in the alphabet to buy from one
+> lower in the alphabet. You'd have to sell C this round and buy A in a
+> later round. Whereas if you wanted to sell A this round, you could
+> then go on to buy C this round without an issue.
+
+## Merge
+
+TODO
+
+## Star Bonus
+
+TODO
+
+## Company Formation
+
+TODO
+
+## Company Growth
+
+TODO
+
 ## Game Over
 
 TODO
+
+## Additional Rules
+
+If there are not enough available moves to form five candidate moves,
+the original game entered an infinite loop. This is not recommended in
+real life, and the game should be over at this point.
+
+If we progress to the point where we wish to make a new company (either
+by moving next to an outpost or a star), but there are no companies
+available, an outpost is placed at the player's move, instead. This
+should not be possible (the candidate move should have been disallowed),
+but there is code in the original game to handle it.
+
+## Questions
+
+Does merging handle star and outpost bonuses?
+
+```
+.  .  .
+A  x  B
+.  *  .
+```
