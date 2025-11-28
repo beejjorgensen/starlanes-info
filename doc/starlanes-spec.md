@@ -216,6 +216,8 @@ BUY HOW MANY SHARES OF ERIDANI EXPEDITERS AT $ 1200
 > later round. Whereas if you wanted to sell A this round, you could
 > then go on to buy C this round without an issue.
 
+Jump to [Check Turn Counter](#check-turn-counter).
+
 ## Merge
 
 TODO
