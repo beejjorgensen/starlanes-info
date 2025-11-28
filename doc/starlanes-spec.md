@@ -153,17 +153,17 @@ they'll be prompted again to move.
 ### 5. Update Map Phase 1
 
 If the player's move is surrounded by empty space, it becomes an
-unaffiliated outpost. Jump to [Pay Dividends](#pay-dividends).
+unaffiliated outpost. Jump to [Pay Dividends](#7-pay-dividends).
 
 If any neighbors are companies that are not the same, perform a
-[merge](#merge). Jump to [Pay Dividends](#pay-dividends).
+[merge](#merge). Jump to [Pay Dividends](#7-pay-dividends).
 
 If any neighbor is a company, [grow the company](#company-growth). Jump
-to [Update Map Phase 2](#update-map-phase-2).
+to [Update Map Phase 2](#6-update-map-phase-2).
 
 If any neighbor is a star or outpost, [form a new
 company](#company-formation). Jump to [Update Map Phase
-2](#update-map-phase-2).
+2](#6-update-map-phase-2).
 
 ### 6. Update Map Phase 2
 
@@ -216,7 +216,7 @@ BUY HOW MANY SHARES OF ERIDANI EXPEDITERS AT $ 1200
 > later round. Whereas if you wanted to sell A this round, you could
 > then go on to buy C this round without an issue.
 
-Jump to [Check Turn Counter](#check-turn-counter).
+Jump to [Check Turn Counter](#1-check-turn-counter).
 
 ## Merge
 
