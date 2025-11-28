@@ -190,6 +190,9 @@ For each neighbor of the select move that is an unaffiliated outpost,
 add `100` to the new-or-growing company's stock price, add `1` to its
 size, and convert the outpost into the company.
 
+If the price per share of the new-or-growing company becomes greater
+than `3000`, perform a [stock split](#stock-splits).
+
 ### 7. Pay Dividends
 
 For each company, compute 5% of the cash value of the player's stock
@@ -231,15 +234,15 @@ BUY HOW MANY SHARES OF ERIDANI EXPEDITERS AT $ 1200
 
 TODO
 
-## Star Bonus
-
-TODO
-
 ## Company Formation
 
 TODO
 
 ## Company Growth
+
+TODO
+
+## Stock Splits
 
 TODO
 
