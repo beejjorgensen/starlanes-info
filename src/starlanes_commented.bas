@@ -47,6 +47,7 @@ REM Lines
 REM 
 REM 70 New game initialization
 REM 200 Main loop start
+REM 660 See if new company available to form
 REM 680 New shipping company formed
 REM 700 detect stars nearby company and increase price
 REM 800 Add dividends to current player
@@ -170,6 +171,9 @@ REM outpost would be merged into the existing company.)
 315 IF A2 = 2 AND A1 < 4 AND A3 < 4 AND A4 < 4 THEN 230
 320 IF A3 = 2 AND A1 < 4 AND A2 < 4 AND A4 < 4 THEN 230
 325 IF A4 = 2 AND A1 < 4 AND A2 < 4 AND A3 < 4 THEN 230
+
+REM Same logic as the above block, except for stars instead of outposts.
+
 330 IF A1 = 3 AND A2 < 4 AND A3 < 4 AND A4 < 4 THEN 230
 332 IF A2 = 3 AND A1 < 4 AND A3 < 4 AND A4 < 4 THEN 230
 335 IF A3 = 3 AND A1 < 4 AND A2 < 4 AND A4 < 4 THEN 230
@@ -186,8 +190,8 @@ REM Show legal moves (columns are shown "A" through "L")
 
 REM Get move, special case "M" for showing the map and "S" the score.
 
-370 INPUT"WHAT IS YOUR MOVE";R$:IFLEFT$(R$,1)="M"THENGOSUB1000:GOTO350
-372 IFLEFT$(R$,1)="S"THENGOSUB1440:GOTO350
+370 INPUT "WHAT IS YOUR MOVE";R$: IF LEFT$(R$,1)="M" THEN GOSUB 1000: GOTO 350
+372 IF LEFT$(R$,1) = "S" THEN GOSUB 1440: GOTO 350
 
 REM Get the entered row and column, converting the column to an index.
 REM Check that the entered r,c is in the candidate list.
@@ -209,7 +213,7 @@ REM If the move is surrounded by empty space, it becomes an outpost and
 REM we're done. (Why <= 1 and not just =1? Are spaces ever
 REM non-positive???)
 
-410 IF A1 <= 1 AND A2 <= 1 AND A3 <= 1 AND A4 <= 1 THEN M(R,C) = 2: GOTO800
+410 IF A1 <= 1 AND A2 <= 1 AND A3 <= 1 AND A4 <= 1 THEN M(R,C) = 2: GOTO 800
 
 REM If any pair of directions are companies that are NOT the same, check
 REM for a merge.
@@ -221,18 +225,23 @@ REM for a merge.
 460 IF A2 > 3 AND A4 > 3 AND A4 <> A2 THEN GOSUB 1060
 470 IF A3 > 3 AND A4 > 3 AND A4 <> A3 THEN GOSUB 1060
 
-REM If there are no companies in any direction, then skip the next
-REM block???
+REM If there are no companies in any direction, then skip to seeing if
+REM we can form a new company. No need to increase any company sizes or
+REM change values.
 
 480 IF A1 < 4 AND A2 < 4 AND A3 < 4 AND A4 < 4 THEN 660
 
-REM If there is already a company at this location, skip to scoring???
-REM How can this ever happen???
+REM If there is a company at this location, skip to add dividends. This
+REM happens if there's been a merge. The merge handled all the resizing
+REM and value changing.
 
 490 IF M(R,C) > 3 THEN 800
 
 REM Assign `I` the company number in the given direction. Note that
 REM later directions will overwrite previously-assigned values of `I`.
+REM
+REM At this point, there should only be one company type in any/all of
+REM the neighbors (since any merges happened), so `I` will refer to it.
 
 500 IF A1 > 3 THEN I = A1-3
 510 IF A2 > 3 THEN I = A2-3
@@ -246,22 +255,26 @@ REM Jump ahead to star detection (700)
 
 540 Q(I) = Q(I) + 1: S1(I) = S1(I) + 100: M(R,C) = I+3: GOTO 700
 
-REM If there are any available companies, skip the next line and form a
-REM new company
+REM If there are any available companies, jump to form a new company.
 
 660 FOR I=1 TO 5: IF Q(I) = 0 THEN 680
 
-REM If the map at the move is empty space or an outpost (how could
-REM it be an outpost???), make it an outpost. Almost redundant with line
-REM 410 excepts allows for outposts to overwrite existing outposts.
+REM If the map at the move is empty space or an outpost, make it an
+REM outpost.
+REM
+REM This appears to be a safety. We got to this point so we *want* to
+REM make a new company, but there are none availble, so we can't. In
+REM Instead, we just plop an outpost there outside of normal rules.
+REM
+REM In theory, this should not happen because we shouldn't have been
+REM given a candidate move that would have allowed a new company to be
+REM formed in the first place.
 
 670 NEXTI: IF M(R,C) < 3 THEN M(R,C) = 2: GOTO 800
 
 REM Notify that a new shipping company has been formed (at index `I`).
 REM Give the founding player (current player, in `P`) 5 shares in that
-REM company. Set the size of the company to 1. (The size will increase
-REM during the merge phase???) (Why not set the size to 5 immediately,
-REM why add???)
+REM company. Set the size of the company to 1.
 
 680 GOSUB 7900: PRINT "A NEW SHIPPING COMPANY HAS BEEN FORMED!"
 690 PRINT "IT'S NAME IS ";M$(I): S(I,P) = S(I,P) + 5: Q(I) = 1
