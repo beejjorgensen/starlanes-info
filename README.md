@@ -9,8 +9,9 @@ find the original.
 Some detective work later eventually led me to a Wikipedia article that
 had the information I was after! For once, I should have started there.
 
-## The Articles
+## Information
 
+* [Star Lanes Specification](doc/starlanes-spec.md)—for yer clean-room ports
 * [_Interface Age_ article, p. 131](https://archive.org/details/197706InterfaceAge/page/131/mode/1up)
 * [_Interface Age_ article](doc/interface_age-starlanes.pdf) (local, lower resolution)
 * [Image of the source from that article](doc/listing.jpg) (local)
