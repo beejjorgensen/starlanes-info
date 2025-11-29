@@ -310,7 +310,8 @@ but there is code in the original game to handle it.
 
 ## Example Output
 
-Vertical and horizontal whitespace has been preserved.
+Vertical and horizontal whitespace has been preserved. Newline count
+includes the last line of printable characters.
 
 ### Setup
 
@@ -427,6 +428,8 @@ CAPELLA FREIGHT CO.           1400                12
 ```
 
 ### Stock Split
+
+Whitespace at bottom is six newlines.
 
 ```
                      SPECIAL ANNOUNCEMENT!!
