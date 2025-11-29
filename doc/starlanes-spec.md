@@ -162,7 +162,7 @@ If any neighbor is a company, grow the company:
 * Increment the stock value by `100`.
 * Jump to [Update Map Phase 2](#6-update-map-phase-2).
 
-If any neighbor is a star or outpost:
+If any neighbor is a star or outpost, form a new company:
 
 * Announce the new company.
 * Award the current player `5` shares in the new company as the founder.
