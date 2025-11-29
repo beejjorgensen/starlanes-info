@@ -38,7 +38,7 @@ An example rendering from the original game:
                     *******************
             A  B  C  D  E  F  G  H  I  J  K  L
          1  .  .  .  .  .  .  .  .  .  .  .  . 
-         2  .  .  .  .  .  .  +  .  E  E  +  . 
+         2  .  .  .  .  .  .  +  .  E  E  .  . 
          3  +  .  .  *  .  .  .  .  *  .  .  . 
          4  .  .  .  A  .  .  .  .  .  .  .  . 
          5  .  .  A  A  .  B  B  .  +  .  .  . 
