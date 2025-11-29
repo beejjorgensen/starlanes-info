@@ -23,8 +23,10 @@ had the information I was after! For once, I should have started there.
 
 ## Play
 
-[This awesome website lets you play
-online](https://starlanes.azurewebsites.net/).
+* [This awesome website lets you play
+  online](https://starlanes.azurewebsites.net/).
+* Download [a BASIC port](src/starlanes_bas.bas) for the modern [BAS
+  Basic Interpreter](https://www.moria.de/~michael/bas/)
 
 ## Ports
 
