@@ -327,19 +327,6 @@ space, and positive number are **always** preceded by a space.
 The `TAB` function moves the cursor to the specified column (1-based)
 and continues printing there.
 
-## Questions
-
-Does merging handle star and outpost bonuses?
-
-```
-.  .  .
-A  x  B
-.  *  .
-```
-
-When merging, we increase the size of the larger company by that of the
-smaller. But when do we add `1` more for the played move, itself?
-
 ## Modern Implementation Notes
 
 Some potential options to the core logic:
