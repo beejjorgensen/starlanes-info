@@ -1,5 +1,4 @@
 # Star Lanes specification
-
 ***Work In Progress***
 
 Star Lanes is a game of interstellar trading for 2-4 players.
@@ -220,7 +219,61 @@ Jump to [Check Turn Counter](#1-check-turn-counter).
 
 ## Merge
 
-TODO
+When the player moves into a cell that would connect two companies, a
+*merge* occurs.
+
+First, the largest company (in size, not value) is determined. If there
+is a tie, the lowest-numbered company is used. (E.g. if BETELGEUSE and
+ERIDANI are both tied for largest, BETELGEUSE is chosen because it comes
+first in the alphabet.)
+
+From the move cell, look around in all directions in the order N,S,E,W.
+If in a particular direction you find a company that is **not** the
+largest, merge it with the largest.
+
+To do this:
+
+* Print an announcement.
+
+* Compute:
+
+  * **Stock conversion:** for each player, the amount of the old stock
+    in the smaller company that will be converted to stock in the
+    larger.
+
+    The conversion is 50% of the smaller stock rounded to the
+    **nearest** integer.
+
+    The converted stock is added to the player's stock for the larger
+    company.
+
+  * **Bonus:** compute the total shares outstanding for the smaller
+    company by adding the total held by all players.
+
+    For each player, compute the fraction of the total stock owned, _f_.
+    And let _p_ be the smaller company price per share.
+
+    Then that player's bonus is the following, rounded **down**:
+
+    10 × _f_ × _p_
+
+    The bonus is added to the player's cash holdings.
+
+Go through the entire map and convert smaller company cells to the
+larger company.
+
+Increase the size of the larger company by that of the smaller company.
+
+> Ideally, it would be the combined size *plus one* to account for the
+> new cell from the current move, but the original game didn't do this.
+
+Add the stock price of the smaller company onto the stock price of the
+larger company.
+
+Perform a [stock split](#stock-splits) on the combined company, if
+necessary.
+
+Set the map cell at the current move to the combined company.
 
 ## Company Formation
 
@@ -232,7 +285,11 @@ TODO
 
 ## Stock Splits
 
-TODO
+A *stock split* occurs when a company's value exceeds `3000`.
+
+The value of the company's shares is cut in half, rounding down.
+
+Each player's number of shares in the company doubles.
 
 ## Game Over
 
@@ -275,3 +332,6 @@ Does merging handle star and outpost bonuses?
 A  x  B
 .  *  .
 ```
+
+When merging, we increase the size of the larger company by that of the
+smaller. But when do we add `1` more for the played move, itself?
