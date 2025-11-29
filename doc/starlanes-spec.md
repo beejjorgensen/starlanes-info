@@ -311,6 +311,146 @@ available, an outpost is placed at the player's move, instead. This
 should not be possible (the candidate move should have been disallowed),
 but there is code in the original game to handle it.
 
+## Example Output
+
+Vertical and horizontal whitespace has been preserved.
+
+### Setup
+
+Space at the top is a form-feed followed by three newlines.
+
+```
+
+
+
+
+         * S * T * A * R ** L * A * N * E * S *
+HOW MANY PLAYERS (2-4)? 2
+DOES ANY PLAYER NEED INSTRUCTIONS? N
+PLAYER 1 WHAT IS YOUR NAME? ALICE
+PLAYER 2 WHAT IS YOUR NAME? BOB
+
+NOW I WILL DECIDED WHO GOES FIRST...
+
+BOB IS THE FIRST PLAYER TO MOVE.
+```
+
+### Map and Moves
+
+Whitespace at top is a form-feed followed by one newline.
+
+```
+
+
+                     MAP OF THE GALAXY
+                    *******************
+            A  B  C  D  E  F  G  H  I  J  K  L
+         1  .  .  .  .  .  .  .  .  .  .  *  .
+         2  .  .  .  .  .  .  .  .  .  .  .  .
+         3  .  .  .  .  .  .  .  .  .  .  .  .
+         4  *  .  .  .  .  .  .  .  .  .  .  .
+         5  .  .  .  .  .  .  .  .  .  .  *  .
+         6  .  .  .  .  .  .  .  .  .  .  .  .
+         7  .  .  .  .  .  .  .  .  .  .  .  .
+         8  .  .  .  .  .  .  .  .  .  .  .  .
+         9  .  .  .  .  *  .  .  .  .  .  .  .
+
+BOB, HERE ARE YOUR LEGAL MOVES FOR THIS TURN:
+ 4 B / 3 F / 3 C / 3 G / 4 C /
+WHAT IS YOUR MOVE? 4B
+```
+
+### New Company
+
+```
+                     SPECIAL ANNOUNCEMENT!!
+
+A NEW SHIPPING COMPANY HAS BEEN FORMED!
+IT'S NAME IS ALTAIR STARWAYS
+
+
+
+
+
+
+```
+
+### Trading
+
+```
+YOUR CURRENT CASH= $ 6450
+BUY HOW MANY SHARES OF ALTAIR STARWAYS AT $ 600
+    YOU NOW OWN 5 ? -3
+YOUR CURRENT CASH= $ 8250
+BUY HOW MANY SHARES OF BETELGEUSE, LTD. AT $ 600
+    YOU NOW OWN 0 ? 4
+YOUR CURRENT CASH= $ 5850
+BUY HOW MANY SHARES OF CAPELLA FREIGHT CO. AT $ 600
+    YOU NOW OWN 5 ? 5
+```
+
+### Merging
+
+```
+                     SPECIAL ANNOUNCEMENT!!
+
+BETELGEUSE, LTD. HAS JUST BEEN MERGED INTO CAPELLA FREIGHT CO.!
+PLEASE NOTE THE FOLLOWING TRANSACTIONS.
+
+   OLD STOCK = BETELGEUSE, LTD.       NEW STOCK = CAPELLA FREIGHT CO.
+
+PLAYER   OLD STOCK   NEW STOCK   TOTAL HOLDINGS     BONUS PAID
+ALICE     5           3           3                  $ 3333
+BOB       4           2           12                 $ 2666
+
+
+
+
+
+```
+
+### Display Holdings
+
+When you'd hit `S` during the trade phase.
+
+Whitespace at top is a form-feed followed by two newlines.
+
+```
+
+
+
+STOCK                        PRICE PER SHARE     YOUR HOLDINGS
+ALTAIR STARWAYS               600                 2
+CAPELLA FREIGHT CO.           1400                12
+```
+
+### Stock Split
+
+```
+                     SPECIAL ANNOUNCEMENT!!
+
+THE STOCK OF ALTAIR STARWAYS HAS SPLIT 2 FOR 1!
+
+
+
+
+
+```
+
+### End of Game
+
+```
+                     SPECIAL ANNOUNCEMENT!!
+
+THE GAME IS OVER - HERE ARE THE FINAL STANDINGS
+
+PLAYER   CASH VALUE OF STOCK    CASH ON HAND     NET WORTH
+
+ALICE    $ 6260                 $ 2380           $ 8640
+BOB      $ 10300                $ 87             $ 10387
+ANOTHER GAME? 
+```
+
 ## Altair BASIC Notes
 
 Code was originally for an Altair, and was in all caps. Formfeeds were
