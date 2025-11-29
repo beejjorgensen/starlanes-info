@@ -90,7 +90,7 @@ REM There's a 1/20 chance that space will be a star, else it's empty
 REM space.
 
 100 L$ = ".+*ABCDE": M$ = "ABCDEFGHIJKL": FOR I=1 TO 9: FOR J=1 TO 12
-110 IF INT(RND(1)*20)+1 <> 10 THEN M(I,J) = 1: GOTO130
+110 IF INT(RND(1)*20)+1 <> 10 THEN M(I,J) = 1: GOTO 130
 120 M(I,J) = 3
 
 REM Get player count and ask about instructions
@@ -129,7 +129,7 @@ REM 240 verifies uniqueness. Line 250 verifies emptiness.
 
 220 FOR I = 1 TO 5
 230 R(I) = INT(9*RND(1)+1): C(I) = INT(12*RND(1)+1)
-240 FOR I1 = I-1 TO 0 STEP -1: IF R(I) = RI(I1) AND C(I) = C(I1) THEN 230
+240 FOR I1 = I-1 TO 0 STEP -1: IF R(I) = R(I1) AND C(I) = C(I1) THEN 230
 250 NEXT I1: IF M(R(I),C(I)) > 1 THEN 230
 
 REM If the number of spaces occupied by any company is 0, we'll skip the
@@ -151,7 +151,7 @@ REM existing company (or merge), and so we'll allow the candidate for
 REM now.
 
 270 NEXT I1: IF M(R(I),C(I)+1) > 3 OR M(R(I),C(I)-1) > 3 THEN 340
-280 IF M(R(I)+1,C(I)) > 3 OR M(R(I)-1),C(I)) > 3 THEN 340
+280 IF M(R(I)+1,C(I)) > 3 OR M(R(I)-1,C(I)) > 3 THEN 340
 
 REM Look at the map in 4 directions from the candidate
 REM
@@ -278,7 +278,7 @@ REM In theory, this should not happen because we shouldn't have been
 REM given a candidate move that would have allowed a new company to be
 REM formed in the first place.
 
-670 NEXTI: IF M(R,C) < 3 THEN M(R,C) = 2: GOTO 800
+670 NEXT I: IF M(R,C) < 3 THEN M(R,C) = 2: GOTO 800
 
 REM Notify that a new shipping company has been formed (at index `I`).
 REM Give the founding player (current player, in `P`) 5 shares in that
@@ -350,7 +350,7 @@ REM The IF guard is mathematically unnecessary.
 
 REM Go back to start of main loop.
 
-900 NEXTI:GOTO200
+900 NEXT I: GOTO 200
 
 REM Subroutine: Print galaxy map
 
@@ -466,8 +466,8 @@ REM the old company divided by total shares in that company.
 REM
 REM This value is recomputed again later, as well.
 
-1265 PRINTTAB(53);
-1270 PRINT" $";INT(10*((S(X,I)/X1)*S1(X))):NEXTI
+1265 PRINT TAB(53);
+1270 PRINT" $";INT(10*((S(X,I)/X1)*S1(X))):NEXT I
 
 REM For all players
 REM
@@ -477,7 +477,7 @@ REM Add converted old holdings onto remaining company.
 
 REM And add the bonus to the bank account.
 
-1300 B(I) = B(I) + INT(10*((S(X,I)/X1)*S1(X))): NEXTI
+1300 B(I) = B(I) + INT(10*((S(X,I)/X1)*S1(X))): NEXT I
 
 REM Go through the map and change all the old company cells to the new
 REM company.
@@ -654,7 +654,7 @@ REM Routine: Game over
 REM For each player, compute their stock value as the sum of all company
 REM share values multiplied by their holdings.
 
-9530 FOR I=1 TO P1: FORJ = 1 TO 5: D1(I) = D1(I) + (S1(J)*S(J,I)): NEXT J,I
+9530 FOR I=1 TO P1: FOR J = 1 TO 5: D1(I) = D1(I) + (S1(J)*S(J,I)): NEXT J,I
 
 REM For each player, print out stock value, cash, and net worth (stock
 REM value plus cash).
