@@ -659,7 +659,7 @@ REM share values multiplied by their holdings.
 REM For each player, print out stock value, cash, and net worth (stock
 REM value plus cash).
 
-9640 FOR I=1 TO P1: PRINT P$(I);TAB(10)"$";D1(I);TAB(33)"$";B(I);
+9540 FOR I=1 TO P1: PRINT P$(I);TAB(10)"$";D1(I);TAB(33)"$";B(I);
 9550 PRINT TAB(50)"$";D1(I) + B(I): NEXT I
 
 REM Play again?
