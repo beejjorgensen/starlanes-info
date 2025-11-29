@@ -217,6 +217,14 @@ REM non-positive???)
 
 REM If any pair of directions are companies that are NOT the same, check
 REM for a merge.
+REM
+REM The first of these that get called will merge all companies into the
+REM largest, even in a mult-way merge. This causes all subsequent
+REM conditions to be false.
+REM
+REM Effectively this is identical to "If any two neighbors at all have
+REM different companies, call the merge code once. And the merge code
+REM will merge everything."
 
 420 IF A1 > 3 AND A2 > 3 AND A2 <> A1 THEN GOSUB 1060
 430 IF A1 > 3 AND A3 > 3 AND A3 <> A1 THEN GOSUB 1060
@@ -403,6 +411,8 @@ REM
 REM Else set parameter X to that company number and call the merge
 REM announcement subroutine.
 REM 
+REM IOW, merge smaller companies into the larger.
+REM
 REM X is the smaller (mergee) company, and T1 is the larger (merger)
 REM company.
 
@@ -519,7 +529,7 @@ REM company to 0.
 
 REM Set the map in the player's chosen sector to the new company.
 
-1360 M(R,C)u = T1+3
+1360 M(R,C) = T1+3
 1370 RETURN
 
 REM Subroutine: Announce and perform stock split
