@@ -1,5 +1,4 @@
 # Star Lanes specification
-***Work In Progress***
 
 Star Lanes is a game of interstellar trading for 2-4 players.
 
@@ -157,19 +156,25 @@ unaffiliated outpost. Jump to [Pay Dividends](#7-pay-dividends).
 If any neighbors are companies that are not the same, perform a
 [merge](#merge). Jump to [Pay Dividends](#7-pay-dividends).
 
-If any neighbor is a company, [grow the company](#company-growth). Jump
-to [Update Map Phase 2](#6-update-map-phase-2).
+If any neighbor is a company, grow the company:
 
-If any neighbor is a star or outpost, [form a new
-company](#company-formation). Jump to [Update Map Phase
-2](#6-update-map-phase-2).
+* Increment the size of the company by `1`.
+* Increment the stock value by `100`.
+* Jump to [Update Map Phase 2](#6-update-map-phase-2).
+
+If any neighbor is a star or outpost:
+
+* Announce the new company.
+* Award the current player `5` shares in the new company as the founder.
+* Set the size of the new company to `1`
+* Jump to [Update Map Phase 2](#6-update-map-phase-2).
 
 ### 6. Update Map Phase 2
 
 For each neighbor of the selected move that is a star, add `500` to the
 new-or-growing company's stock price.
 
-For each neighbor of the select move that is an unaffiliated outpost,
+For each neighbor of the selected move that is an unaffiliated outpost,
 add `100` to the new-or-growing company's stock price, add `1` to its
 size, and convert the outpost into the company.
 
@@ -222,10 +227,9 @@ Jump to [Check Turn Counter](#1-check-turn-counter).
 When the player moves into a cell that would connect two companies, a
 *merge* occurs.
 
-First, the largest company (in size, not value) is determined. If there
-is a tie, the lowest-numbered company is used. (E.g. if BETELGEUSE and
-ERIDANI are both tied for largest, BETELGEUSE is chosen because it comes
-first in the alphabet.)
+First, the largest neighbor company (in size, not value) is determined
+in the order N,S,E,W. If there is a tie, the first largest company found
+is used.
 
 From the move cell, look around in all directions in the order N,S,E,W.
 If in a particular direction you find a company that is **not** the
@@ -275,14 +279,6 @@ necessary.
 
 Set the map cell at the current move to the combined company.
 
-## Company Formation
-
-TODO
-
-## Company Growth
-
-TODO
-
 ## Stock Splits
 
 A *stock split* occurs when a company's value exceeds `3000`.
@@ -293,7 +289,15 @@ Each player's number of shares in the company doubles.
 
 ## Game Over
 
-TODO
+When the turn counter reaches 48, the game is over.
+
+Print a summary.
+
+Player net worth is their cash plus the value of their stock holdings.
+
+Player with the highest net worth is the winner.
+
+Optionally play again.
 
 ## Additional Rules
 
@@ -335,3 +339,23 @@ A  x  B
 
 When merging, we increase the size of the larger company by that of the
 smaller. But when do we add `1` more for the played move, itself?
+
+## Modern Implementation Notes
+
+Some potential options to the core logic:
+
+* Solo mode
+* Computer players
+* Network play
+* Different size maps
+* Bug fix for computing the size of a company after a merge, OB1
+* Allow stock trades to be done in any order, not just alphabetical
+* Better candidate move logic that can't infinite loop
+  * Just end the game if there's no room for all candidates
+* Variable number of candidates
+* Black holes that add `-500` value to a company
+  * If the company falls below `0` price per share, the entire thing is
+    eaten up
+* End the game when a certain percentage of the map is full, not just on
+  move count.
+
