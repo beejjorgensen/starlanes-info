@@ -393,15 +393,18 @@ REM one under consideration, e.g. if the sizes are F1=1 F2=2 F3=2 F4=2,
 REM the largest company will be F2.
 
 1065 T = Q(F1): T1 = F1: IF Q(F2) > Q(F1) THEN T = Q(F2): T1 = F2
-1070 IF Q(F3) >T THEN T = Q(F3): T1 = F3
-1080 IF Q(F4) >T THEN T = Q(F4): T1 = F4
+1070 IF Q(F3) > T THEN T = Q(F3): T1 = F3
+1080 IF Q(F4) > T THEN T = Q(F4): T1 = F4
 
 REM Repeated logic: if the company in that direction is equal to the
 REM largest company, or the other space is not a company, skip to the
 REM next check.
 REM
-REM Else set X to that company number and call the merge announcement
-REM subroutine.
+REM Else set parameter X to that company number and call the merge
+REM announcement subroutine.
+REM 
+REM X is the smaller (mergee) company, and T1 is the larger (merger)
+REM company.
 
 1090 IF F1 = T1 OR A1 < 4 THEN 1110
 1100 X = F1: GOSUB 1180
@@ -442,11 +445,11 @@ REM holdings).
 
 REM Add all player holdings in old company X, store in X1,
 
-1260 X1=0:FORI1=1TOP1:X1=X1+S(X,I1):NEXTI1
+1260 X1 = 0: FOR I1=1 TO P1: X1 = X1 + S(X,I1): NEXT I1
 
 REM Print bonus. Bonus is this, rounded down:
 REM
-REM    10 * player_holding_fraction * REM old_company_price
+REM    10 * player_holding_fraction * old_company_price
 REM
 REM player_holding_fraction is the number of shares the player held in
 REM the old company divided by total shares in that company.
