@@ -48,9 +48,6 @@ An example rendering from the original game:
          9  .  .  .  .  .  .  .  .  .  .  .  . 
 ```
 
-> Pedantic note: in the original game, each row 1-9 of the map ends with
-> a space character after the cell.
-
 Each cell of the map can exist in one of eight states:
 
 |Character|State              |
@@ -339,25 +336,30 @@ BOB IS THE FIRST PLAYER TO MOVE.
 
 Whitespace at top is a form-feed followed by one newline.
 
+Each cell is straddled by a space on either side; as such, each row 1-9
+ends in a single space.
+
+Map ends with no newline. Legal move list starts with two newlines.
+
 ```
 
 
                      MAP OF THE GALAXY
                     *******************
             A  B  C  D  E  F  G  H  I  J  K  L
-         1  .  .  .  .  .  .  .  .  .  .  *  .
-         2  .  .  .  .  .  .  .  .  .  .  .  .
-         3  .  .  .  .  .  .  .  .  .  .  .  .
-         4  *  .  .  .  .  .  .  .  .  .  .  .
-         5  .  .  .  .  .  .  .  .  .  .  *  .
-         6  .  .  .  .  .  .  .  .  .  .  .  .
-         7  .  .  .  .  .  .  .  .  .  .  .  .
-         8  .  .  .  .  .  .  .  .  .  .  .  .
-         9  .  .  .  .  *  .  .  .  .  .  .  .
+         1  .  .  .  .  .  .  .  .  .  .  *  . 
+         2  .  .  .  .  .  .  .  .  .  .  .  + 
+         3  .  .  .  .  .  .  .  .  .  +  .  . 
+         4  *  .  .  +  .  .  .  .  .  .  .  . 
+         5  .  .  .  .  .  .  +  .  .  .  *  . 
+         6  .  .  .  .  .  .  .  .  .  .  .  . 
+         7  A  A  .  .  .  .  .  .  .  .  .  . 
+         8  .  .  .  .  .  .  .  .  .  .  .  . 
+         9  .  +  .  .  *  .  .  .  .  .  .  . 
 
-BOB, HERE ARE YOUR LEGAL MOVES FOR THIS TURN:
- 4 B / 3 F / 3 C / 3 G / 4 C /
-WHAT IS YOUR MOVE? 4B
+ALICE, HERE ARE YOUR LEGAL MOVES FOR THIS TURN:
+ 7 D / 9 G / 8 I / 6 A / 7 J /
+WHAT IS YOUR MOVE?
 ```
 
 ### New Company
