@@ -122,9 +122,9 @@ the map, but with limitations, below.
     one. It might also result in a merge, which also doesn't create a
     new company.)
 
-  * If any neighboring cell is an unassigned outpost and none of the
-    rest are companies, **disallow and replace** the candidate with
-    another random one (that must also obey all the rules).
+  * If any neighboring cell is an unassigned outpost or a star, and none
+    of the rest are companies, **disallow and replace** the candidate
+    with another random one (that must also obey all the rules).
    
 The player will be able to select from these five choices about which
 move to make.
