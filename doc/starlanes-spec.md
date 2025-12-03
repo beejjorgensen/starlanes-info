@@ -95,7 +95,7 @@ At the start of the game, the map is initialized one cell at a time.
 Increment the turn counter. If it reaches `48`, the [game is
 over](#game-over).
 
-### 3. Random Candidate Moves Selected
+### 2. Random Candidate Moves Selected
 
 These moves are generally randomly chosen from empty spaces across
 the map, but with limitations, below.
