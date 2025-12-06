@@ -90,12 +90,7 @@ At the start of the game, the map is initialized one cell at a time.
 
 ## Gameplay
 
-### 1. Check Turn Counter
-
-Increment the turn counter. If it reaches `48`, the [game is
-over](#game-over).
-
-### 2. Random Candidate Moves Selected
+### 1. Random Candidate Moves Selected
 
 These moves are generally randomly chosen from empty spaces across
 the map, but with limitations, below.
@@ -131,7 +126,7 @@ move to make.
 > deterministic method for finding moves and end the game if enough
 > cannot be found.
 
-### 3. Player Moves
+### 2. Player Moves
 
 Show the current player the map, print their name, and ask for their
 move.
@@ -140,28 +135,28 @@ The player may choose a move directly, or also ask to see the map or
 their stock holdings at this point. After viewing the map or holdings,
 they'll be prompted again to move.
 
-### 4. Update Map Phase 1
+### 3. Update Map Phase 1
 
 If the player's move is surrounded by empty space, it becomes an
-unaffiliated outpost. Jump to [Pay Dividends](#6-pay-dividends).
+unaffiliated outpost. Jump to [Pay Dividends](#5-pay-dividends).
 
 If any neighbors are companies that are not the same, perform a
-[merge](#merge). Jump to [Pay Dividends](#6-pay-dividends).
+[merge](#merge). Jump to [Pay Dividends](#5-pay-dividends).
 
 If any neighbor is a company, grow the company:
 
 * Increment the size of the company by `1`.
 * Increment the stock value by `100`.
-* Jump to [Update Map Phase 2](#5-update-map-phase-2).
+* Jump to [Update Map Phase 2](#4-update-map-phase-2).
 
 If any neighbor is a star or outpost, form a new company:
 
 * Announce the new company.
 * Award the current player `5` shares in the new company as the founder.
 * Set the size of the new company to `1`
-* Jump to [Update Map Phase 2](#5-update-map-phase-2).
+* Jump to [Update Map Phase 2](#4-update-map-phase-2).
 
-### 5. Update Map Phase 2
+### 4. Update Map Phase 2
 
 For each neighbor of the selected move that is a star, add `500` to the
 new-or-growing company's stock price.
@@ -175,13 +170,13 @@ than `3000`, perform a [stock split](#stock-splits).
 
 Set the map cell at the current move to the new-or-growing company.
 
-### 6. Pay Dividends
+### 5. Pay Dividends
 
 For each company, compute 5% of the cash value of the player's stock
 holdings in that company and add the result to the player's cash
 holdings.
 
-### 7. Trade
+### 6. Trade
 
 For each company, allow the player to buy or sell stock.
 
@@ -212,12 +207,25 @@ BUY HOW MANY SHARES OF ERIDANI EXPEDITERS AT $ 1200
 > later round. Whereas if you wanted to sell A this round, you could
 > then go on to buy C this round without an issue.
 
+### 7. Check Turn Counter
+
+Increment the turn counter. If it reaches `48`, the [game is
+over](#game-over).
+
+> In the original code, this happened first in the turn sequence, along
+> with incrementing the player counter. That allowed for games of a
+> minimum of zero turns length, whereas checking at the end allows for
+> games of a minimum of one turn length. Since the game is hardcoded to
+> 48 turns, this doesn't have any practical effect and might simplify
+> implementation.
+
 ### 8. Increment Current Player
 
 Increment the current player number—wrap around at the number of
 players.
 
-Jump to [Check Turn Counter](#1-check-turn-counter).
+Jump to [Random Candidate Moves
+Selected](1-random-candidate-moves-selected).
 
 ## Merge
 
