@@ -565,7 +565,7 @@ prevents a newline. Spaces (or no space) between arguments is just like
 a semicolon.
 
 Exception: when printing numbers, a number is **always** followed by a
-space, and positive number are **always** preceded by a space.
+space, and positive numbers are **always** preceded by a space.
 
 The `TAB` function moves the cursor to the specified column (1-based)
 and continues printing there.
