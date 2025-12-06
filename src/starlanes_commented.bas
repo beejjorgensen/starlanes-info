@@ -181,7 +181,7 @@ REM Same logic as the above block, except for stars instead of outposts.
 
 REM Print the map and player name
 
-340 NEXT I: GOSUB 1000:PRINT :PRINT P$(P);
+340 NEXT I: GOSUB 1000:PRINT: PRINT P$(P);
 
 REM Show legal moves (columns are shown "A" through "L")
 
@@ -189,6 +189,9 @@ REM Show legal moves (columns are shown "A" through "L")
 360 FOR I=1 TO 5: PRINT R(I);MID$(M$,C(I),1);" /";:NEXT I: PRINT
 
 REM Get move, special case "M" for showing the map and "S" the score.
+REM
+REM There is a bug here because GOTO 350 fails to print the player's
+REM name before the legal moves.
 
 370 INPUT "WHAT IS YOUR MOVE";R$: IF LEFT$(R$,1)="M" THEN GOSUB 1000: GOTO 350
 372 IF LEFT$(R$,1) = "S" THEN GOSUB 1440: GOTO 350
