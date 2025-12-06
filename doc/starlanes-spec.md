@@ -225,7 +225,7 @@ Increment the current player number—wrap around at the number of
 players.
 
 Jump to [Random Candidate Moves
-Selected](1-random-candidate-moves-selected).
+Selected](#1-random-candidate-moves-selected).
 
 ## Merge
 
