@@ -12,7 +12,7 @@ you can see the current companies and the space they take up.
 Each player takes turns, and each turn performs:
 
 1. A move to place a new item on the map.
-2. Trades to buy and sell shares of existing companies.
+2. Trades to buy shares of existing companies.
 
 The game is over when the grid is mostly filled. The player with the
 highest net worth wins.
@@ -178,10 +178,15 @@ holdings.
 
 ### 6. Trade
 
-For each company, allow the player to buy or sell stock.
+For each company, allow the player to buy stock.
 
-The player will only be allowed to buy or sell once per company per
-turn, and always in alphabetical order.
+> There is a bug in the original game that allows you to buy negative
+> amounts of stock. The in-game instructions explicitly state `STOCK MAY
+> NOT BE SOLD`, but there are no in-game checks against this action. As
+> such, you can sell stock, or even own negative amounts of stock.
+
+The player will only be allowed to buy once per company per turn, and
+always in alphabetical order.
 
 Example transcript from the original game:
 
@@ -199,13 +204,6 @@ YOUR CURRENT CASH= $ 800
 BUY HOW MANY SHARES OF ERIDANI EXPEDITERS AT $ 1200 
     YOU NOW OWN 12 ? 0 
 ```
-
-> It is unclear if the original game meant for you to only be able to
-> trade in each company once per turn. This effectively limited you if
-> you wanted to sell a company higher in the alphabet to buy from one
-> lower in the alphabet. You'd have to sell C this round and buy A in a
-> later round. Whereas if you wanted to sell A this round, you could
-> then go on to buy C this round without an issue.
 
 ### 7. Check Turn Counter
 
