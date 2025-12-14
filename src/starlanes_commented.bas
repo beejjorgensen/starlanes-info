@@ -222,12 +222,13 @@ REM If any pair of directions are companies that are NOT the same, check
 REM for a merge.
 REM
 REM The first of these that get called will merge all companies into the
-REM largest, even in a mult-way merge. This causes all subsequent
-REM conditions to be false.
+REM largest, even in a mult-way merge. Subsequent calls will still be
+REM made to 1060, but the logic there will do nothing if everything's
+REM already been merged by an earlier call.
 REM
 REM Effectively this is identical to "If any two neighbors at all have
-REM different companies, call the merge code once. And the merge code
-REM will merge everything."
+REM different companies, call the merge code. And the merge code will
+REM merge everything, or do nothing if it's already been merged."
 
 420 IF A1 > 3 AND A2 > 3 AND A2 <> A1 THEN GOSUB 1060
 430 IF A1 > 3 AND A3 > 3 AND A3 <> A1 THEN GOSUB 1060
