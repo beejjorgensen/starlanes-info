@@ -234,50 +234,52 @@ First, the largest neighbor company (in size, not value) is determined
 in the order N,S,E,W. If there is a tie, the first largest company found
 is used.
 
-From the move cell, look around in all directions in the order N,S,E,W.
-If in a particular direction you find a company that is **not** the
-largest, merge it with the largest.
+* From the move cell, look around in all directions in the order
+  N,S,E,W. If in a particular direction you find a company that is
+  **not** the largest, merge it with the largest.
 
-To do this:
+  To do this (per direction):
 
-* Print an announcement.
+  * Print an announcement.
 
-* Compute:
+  * Compute:
 
-  * **Stock conversion:** for each player, the amount of the old stock
-    in the smaller company that will be converted to stock in the
-    larger.
+    * **Stock conversion:** for each player, the amount of the old stock
+      in the smaller company that will be converted to stock in the
+      larger.
 
-    The conversion is 50% of the smaller stock rounded to the
-    **nearest** integer.
+      The conversion is 50% of the smaller stock rounded to the
+      **nearest** integer.
 
-    The converted stock is added to the player's stock for the larger
+      The converted stock is added to the player's stock for the larger
+      company.
+
+    * **Bonus:** compute the total shares outstanding for the smaller
+      company by adding the total held by all players.
+
+      For each player, compute the fraction of the total stock owned,
+      _f_. And let _p_ be the smaller company price per share.
+
+      Then that player's bonus is the following, rounded **down**:
+
+      10 × _f_ × _p_
+
+      The bonus is added to the player's cash holdings.
+
+  * Go through the entire map and convert smaller company cells to the
+    larger company.
+
+  * Increase the size of the larger company by that of the smaller
     company.
 
-  * **Bonus:** compute the total shares outstanding for the smaller
-    company by adding the total held by all players.
+  * Add the stock price of the smaller company onto the stock price of
+    the larger company.
 
-    For each player, compute the fraction of the total stock owned, _f_.
-    And let _p_ be the smaller company price per share.
+  * Perform a [stock split](#stock-splits) on the combined company, if
+    necessary.
 
-    Then that player's bonus is the following, rounded **down**:
-
-    10 × _f_ × _p_
-
-    The bonus is added to the player's cash holdings.
-
-Go through the entire map and convert smaller company cells to the
-larger company.
-
-Increase the size of the larger company by that of the smaller company.
-
-Add the stock price of the smaller company onto the stock price of the
-larger company.
-
-Perform a [stock split](#stock-splits) on the combined company, if
-necessary.
-
-Set the map cell at the current move to the combined company.
+After all merges have completed, set the map cell at the current move to
+the combined company.
 
 > Ideally, at this last point the size of the bigger company would be
 > increased by one for the new cell at the current move, but the
