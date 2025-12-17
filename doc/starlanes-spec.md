@@ -271,9 +271,6 @@ larger company.
 
 Increase the size of the larger company by that of the smaller company.
 
-> Ideally, it would be the combined size *plus one* to account for the
-> new cell from the current move, but the original game didn't do this.
-
 Add the stock price of the smaller company onto the stock price of the
 larger company.
 
@@ -281,6 +278,10 @@ Perform a [stock split](#stock-splits) on the combined company, if
 necessary.
 
 Set the map cell at the current move to the combined company.
+
+> Ideally, at this last point the size of the bigger company would be
+> increased by one for the new cell at the current move, but the
+> original game didn't do this.
 
 ## Stock Splits
 
