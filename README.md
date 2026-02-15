@@ -36,7 +36,9 @@ By various people:
 * [BASIC, Apple \]\[](src/starlanes_apple2.bas) from [archive.org](https://archive.org/details/a2_cple_Games6)
 * [BASIC, BAS](src/starlanes_bas.bas) for the modern [BAS Basic Interpreter](https://www.moria.de/~michael/bas/)
 * [BASIC, Microbee](src/starlanes_microbee.bas) from [ZAP Group](https://www.zap.org.au/projects/trader/historical/mbasic/src/)
-* [C](https://github.com/jparish1977/starlanes) (I wrote this port originally!)
+* [C](https://github.com/beejjorgensen/starlanes-c) v1.4.0 cleaned up from v1.2.2 by me, no AI
+* [C](https://web.archive.org/web/20190701060458/https://www.barnsdle.demon.co.uk/game/starlanes.html) v1.3.0 with AI added by David Barnsdale
+* [C](https://github.com/jparish1977/starlanes) another port of v1.3.0
 * [Clojure](https://github.com/clojusc/clj-starlanes)
 * [C#, Windows](https://github.com/chaisty/StarLanes)
 * [Discord (!!)](https://github.com/patatorre/starlanes_discord)
